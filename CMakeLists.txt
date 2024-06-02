@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.16)
 project(async)
 
 set(CMAKE_CXX_STANDARD 20)
-add_compile_options(-Wall -Wextra -Werror -march=native -fcoroutines)
+add_compile_options(-Wall -Wextra -march=native -fcoroutines)
 
 # add_library(uring STATIC IMPORTED)
 # set_target_properties(uring PROPERTIES
@@ -12,7 +12,7 @@ add_compile_options(-Wall -Wextra -Werror -march=native -fcoroutines)
 # )
 
 if(NOT DEFINED ASYNCHRONOUS_IO_PAGE_SIZE_POWER)
-    set(ASYNCHRONOUS_IO_PAGE_SIZE_POWER 16)
+    set(ASYNCHRONOUS_IO_PAGE_SIZE_POWER 12)
 endif()
 
 add_compile_definitions(ASYNCHRONOUS_IO_PAGE_SIZE_POWER=${ASYNCHRONOUS_IO_PAGE_SIZE_POWER})

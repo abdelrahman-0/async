@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <tbb/scalable_allocator.h>
 
 class FixedAllocator
 {
@@ -16,31 +17,46 @@ public:
 
 	void* allocate()
 	{
-		if (free_list.empty())
-		{
-			auto size = allocation_size * num_blocks;
-			raw_data.emplace_back(std::make_unique<unsigned char[]>(size));
-			free_list.reserve(num_blocks * raw_data.size());
-			uint16_t i = 0;
-			for (unsigned char* p = raw_data.back().get(); i != num_blocks;
-				 p += allocation_size, ++i)
+#ifdef USE_SCALABLE_ALLOCATOR
+			return allocator.allocate(allocation_size);
+#else
+			if (free_list.empty())
 			{
-				free_list.push_back(p);
+				auto size = allocation_size * num_blocks;
+				allocator.emplace_back(std::make_unique<unsigned char[]>(size));
+				free_list.reserve(num_blocks * allocator.size());
+				uint16_t i = 0;
+				for (unsigned char* p = allocator.back().get(); i != num_blocks;
+					 p += allocation_size, ++i)
+				{
+					free_list.push_back(p);
+				}
 			}
-		}
 
-		unsigned char* result = free_list.back();
-		free_list.pop_back();
-		return result;
+			unsigned char* result = free_list.back();
+			free_list.pop_back();
+			return result;
+#endif
 	}
 
-	void deallocate(void* p) noexcept { free_list.push_back(static_cast<unsigned char*>(p)); }
+	void deallocate(void* p) noexcept {
+#ifdef USE_SCALABLE_ALLOCATOR
+			allocator.deallocate(static_cast<char*>(p), allocation_size);
+#else
+			free_list.push_back(static_cast<unsigned char*>(p));
+#endif
+	}
 
 	uint32_t getAllocationSize() const noexcept { return allocation_size; }
 
 private:
-	std::vector<std::unique_ptr<unsigned char[]>> raw_data;
+
+#ifdef USE_SCALABLE_ALLOCATOR
+					   tbb::scalable_allocator<char> allocator;
+#else
+					   std::vector<std::unique_ptr<unsigned char[]>> allocator;
 	std::vector<unsigned char*> free_list;
+#endif
 	uint32_t allocation_size;
 	uint16_t num_blocks;
 };
