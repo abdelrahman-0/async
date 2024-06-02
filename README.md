@@ -82,7 +82,7 @@ Usage: ./build/queries/tpch_q1 lineitem.dat num_threads num_entries_per_ring num
 ### Example
 
 ```
-./build/queries/tpch_q1 data/lineitemQ1.dat 128 128 1000 true true true true
+./build/queries/tpch_q1 data_sf_1/lineitemQ1.dat 128 128 1000 true true true true
 ```
 
 ## Query 14
