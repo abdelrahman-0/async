@@ -4,6 +4,7 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <tbb/cache_aligned_allocator.h>
 #include <tbb/scalable_allocator.h>
 
 class FixedAllocator
@@ -52,7 +53,7 @@ public:
 private:
 
 #ifdef USE_SCALABLE_ALLOCATOR
-					   tbb::scalable_allocator<char> allocator;
+					   tbb::cache_aligned_allocator<char> allocator{};
 #else
 					   std::vector<std::unique_ptr<unsigned char[]>> allocator;
 	std::vector<unsigned char*> free_list;
