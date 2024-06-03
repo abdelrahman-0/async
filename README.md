@@ -37,7 +37,7 @@ An `ASYNCHRONOUS_IO_PAGE_SIZE_POWER` of 16 means 2^16 bytes per page.
 ```
 mkdir build
 cd build
-cmake -G "Ninja" -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release -DASYNCHRONOUS_IO_PAGE_SIZE_POWER=19 ..
+cmake -G "Ninja" -DCMAKE_C_COMPILER=$(which gcc) -DCMAKE_CXX_COMPILER=$(which g++) -DCMAKE_BUILD_TYPE=Release ..
 ninja
 ```
 
