@@ -49,7 +49,7 @@ namespace cppcoro
 			{
 				if (sync_allocator)
 				{
-					sync_allocator->deallocate(p, sz);
+					sync_allocator->deallocate(static_cast<unsigned char*>(p), sz);
 				}
 				else
 				{
@@ -140,7 +140,7 @@ namespace cppcoro
 			{
 				if (sync_allocator)
 				{
-					sync_allocator->deallocate(p, sz);
+					sync_allocator->deallocate(static_cast<unsigned char*>(p), sz);
 				}
 				else
 				{

@@ -7,6 +7,8 @@
 #include <tbb/cache_aligned_allocator.h>
 #include <tbb/scalable_allocator.h>
 
+using Allocator = tbb::scalable_allocator<unsigned char>;
+
 class FixedAllocator
 {
 public:
@@ -62,10 +64,10 @@ private:
 	uint16_t num_blocks;
 };
 
-class Allocator
+class Allocator_OBSELETE
 {
 public:
-	explicit Allocator(uint16_t num_blocks)
+	explicit Allocator_OBSELETE(uint16_t num_blocks)
 		: num_blocks(num_blocks)
 	{
 	}

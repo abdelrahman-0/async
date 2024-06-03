@@ -18,6 +18,7 @@
 #include <iostream>
 #include <type_traits>
 #include <utility>
+#include <tbb/scalable_allocator.h>
 
 #include <cppcoro/coroutine.hpp>
 
@@ -67,7 +68,7 @@ namespace cppcoro
 			{
 				if (allocator)
 				{
-					allocator->deallocate(p, sz);
+					allocator->deallocate(static_cast<unsigned char*>(p), sz);
 				}
 				else
 				{

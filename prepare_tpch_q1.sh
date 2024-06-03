@@ -11,7 +11,7 @@ if [ ! -d "$TPCH_DATA_DIR" ] ; then
 fi
 cd $TPCH_DATA_DIR
 make -s
-for i in 1
+for i in 0.1
 do
   DIR="$RAW_DATA_DIR_PREFIX"_sf_"$i"
   if [ ! -d "$DIR" ] ; then
