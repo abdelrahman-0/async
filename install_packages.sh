@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo apt-get update && sudo apt install make cmake ninja-build g++ libtbb-dev libtbbmalloc2
+sudo apt-get update && sudo apt -y install make cmake ninja-build g++ libtbb-dev libtbbmalloc2
