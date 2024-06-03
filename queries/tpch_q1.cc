@@ -205,8 +205,10 @@ class QueryRunner {
            &ring = thread_local_rings_[thread_index],
            num_ring_entries = num_ring_entries_] {
             if (!is_synchronous) {
+#ifdef USE_ALLOCATOR
               cppcoro::detail::allocator = new Allocator(num_ring_entries);
               cppcoro::detail::sync_allocator = new Allocator(1);
+#endif
             }
             std::allocator<LineitemPageQ1> alloc;
             auto pages = alloc.allocate(is_synchronous ? 1 : num_ring_entries);
